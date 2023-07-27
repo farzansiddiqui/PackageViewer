@@ -23,13 +23,18 @@ class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : Recycle
     }
 
     override fun onBindViewHolder(holder: MyAppListViewModel, position: Int) {
-
+        holder.bind(appArrayList[position])
     }
 
     inner class MyAppListViewModel(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val applicationName:TextView = itemView.findViewById(R.id.applicationName)
-        val packageName:TextView = itemView.findViewById(R.id.packageName)
-        val imageView:ImageView = itemView.findViewById(R.id.app_icon)
+        private val applicationName:TextView = itemView.findViewById(R.id.applicationName)
+        private val packageName:TextView = itemView.findViewById(R.id.packageName)
+        private val imageView:ImageView = itemView.findViewById(R.id.app_icon)
+        fun bind(appListModel: AppListModel){
+            applicationName.text = appListModel.applicationName
+            packageName.text = appListModel.packageName
+            imageView.setImageResource(appListModel.imageDrawable)
+        }
 
     }
 
