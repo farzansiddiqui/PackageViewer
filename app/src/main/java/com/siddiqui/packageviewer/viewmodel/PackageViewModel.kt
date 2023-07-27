@@ -7,7 +7,6 @@ class PackageViewModel:ViewModel() {
      var itemList  = MutableLiveData<ArrayList<AppListModel>>()
     private var newList = ArrayList<AppListModel>()
 
-
     fun addList(appListModel: ArrayList<AppListModel>){
             newList.addAll(appListModel)
             itemList.value = newList

@@ -2,7 +2,6 @@ package com.siddiqui.packageviewer.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.siddiqui.packageviewer.R
@@ -39,4 +38,5 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = AppListAdapter(listItem)
 
     }
+
 }
