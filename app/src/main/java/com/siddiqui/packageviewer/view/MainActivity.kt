@@ -1,5 +1,7 @@
 package com.siddiqui.packageviewer.view
 
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         packageViewModel.addList(listItem)
 
         binding.recyclerView.adapter = AppListAdapter(listItem)
+
+        val packageManager:PackageManager = packageManager
+        val applicationList:List<ApplicationInfo> = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
 
     }
 

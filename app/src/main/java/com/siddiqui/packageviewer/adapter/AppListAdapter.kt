@@ -27,9 +27,11 @@ class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : Recycle
     }
 
     inner class MyAppListViewModel(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         private val applicationName:TextView = itemView.findViewById(R.id.applicationName)
         private val packageName:TextView = itemView.findViewById(R.id.packageName)
         private val imageView:ImageView = itemView.findViewById(R.id.app_icon)
+
         fun bind(appListModel: AppListModel){
             applicationName.text = appListModel.applicationName
             packageName.text = appListModel.packageName
