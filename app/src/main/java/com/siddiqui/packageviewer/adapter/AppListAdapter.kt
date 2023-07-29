@@ -35,7 +35,7 @@ class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : Recycle
         fun bind(appListModel: AppListModel){
             applicationName.text = appListModel.applicationName
             packageName.text = appListModel.packageName
-            imageView.setImageResource(appListModel.imageDrawable)
+            imageView.setImageDrawable(appListModel.imageDrawable)
         }
 
     }
