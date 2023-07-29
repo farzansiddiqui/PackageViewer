@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
 
         val listItem:ArrayList<AppListModel> = arrayListOf()
-
+           val userInstallApp = ArrayList<PackageInfo>()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val applicationList:List<PackageInfo> =  packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(0))
-                val userInstallApp = ArrayList<PackageInfo>()
+
                  for (packageInfo in applicationList){
                          listItem.clear()
                      if (!isSystemApp(packageInfo.applicationInfo) && (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0){
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
             } else {
                 val applicationList:List<PackageInfo> =  packageManager.getInstalledPackages(0)
+
 
             }
 
