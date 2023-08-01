@@ -29,36 +29,58 @@ class MainActivity : AppCompatActivity() {
         packageViewModel = ViewModelProvider(this)[PackageViewModel::class.java]
 
 
-        val listItem:ArrayList<AppListModel> = arrayListOf()
-           val userInstallApp = ArrayList<PackageInfo>()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val applicationList:List<PackageInfo> =  packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(0))
+        val listItem: ArrayList<AppListModel> = arrayListOf()
+        val userInstallApp = ArrayList<PackageInfo>()
 
-                 for (packageInfo in applicationList){
-                         listItem.clear()
-                     if (!isSystemApp(packageInfo.applicationInfo) && (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0){
-                         userInstallApp.add(packageInfo)
-                     }
-                 }
-                for (packageInfo in userInstallApp){
-                    Log.d("TAG", "applicationName: ${packageInfo.applicationInfo.loadLabel(packageManager)}")
-                    val appIcon = packageInfo.applicationInfo.loadIcon(packageManager)
-                    listItem.add(AppListModel(packageInfo.applicationInfo.loadLabel(packageManager).toString(), packageInfo.applicationInfo.packageName, appIcon))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val applicationList: List<PackageInfo> =
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(0))
+
+            for (packageInfo in applicationList) {
+                listItem.clear()
+                if (!isSystemApp(packageInfo.applicationInfo) && (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
+                    userInstallApp.add(packageInfo)
                 }
-
-                Log.d("TAG", "application total number of install: ${userInstallApp.size}")
-
-            } else {
-                val applicationList:List<PackageInfo> =  packageManager.getInstalledPackages(0)
-
-
+            }
+            for (packageInfo in userInstallApp) {
+                val appIcon = packageInfo.applicationInfo.loadIcon(packageManager)
+                listItem.add(
+                    AppListModel(
+                        packageInfo.applicationInfo.loadLabel(packageManager).toString(),
+                        packageInfo.applicationInfo.packageName,
+                        appIcon
+                    )
+                )
             }
 
+            Log.d("TAG", "application total number of install: ${userInstallApp.size}")
+
+        } else {
+            val applicationList: List<PackageInfo> = packageManager.getInstalledPackages(0)
+            for (packageInfo in applicationList) {
+                listItem.clear()
+                if (!isSystemApp(packageInfo.applicationInfo) && (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0) {
+                    userInstallApp.add(packageInfo)
+                }
+            }
+            for (packageInfo in userInstallApp) {
+                val appIcon = packageInfo.applicationInfo.loadIcon(packageManager)
+                listItem.add(
+                    AppListModel(
+                        packageInfo.applicationInfo.loadLabel(packageManager).toString(),
+                        packageInfo.applicationInfo.packageName,
+                        appIcon
+                    )
+                )
+            }
+
+        }
         packageViewModel.addList(listItem)
         binding.recyclerView.adapter = AppListAdapter(listItem)
 
     }
-    fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {
+
+    private fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {
         return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
