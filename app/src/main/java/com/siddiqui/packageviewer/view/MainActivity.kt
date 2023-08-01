@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.siddiqui.packageviewer.adapter.AppListAdapter
@@ -28,9 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         packageViewModel = ViewModelProvider(this)[PackageViewModel::class.java]
 
-
         val listItem: ArrayList<AppListModel> = arrayListOf()
         val userInstallApp = ArrayList<PackageInfo>()
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val applicationList: List<PackageInfo> =
@@ -53,7 +54,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            Log.d("TAG", "application total number of install: ${userInstallApp.size}")
 
         } else {
             val applicationList: List<PackageInfo> = packageManager.getInstalledPackages(0)
@@ -73,10 +73,22 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             }
-
         }
+        Log.d("TAG", "application total number of install: ${userInstallApp.size}")
         packageViewModel.addList(listItem)
         binding.recyclerView.adapter = AppListAdapter(listItem)
+
+
+        onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (binding.searchView.isShowing){
+                    binding.searchView.hide()
+                }else{
+                    finish()
+                }
+            }
+
+        })
 
     }
 
@@ -84,5 +96,13 @@ class MainActivity : AppCompatActivity() {
         return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
 }
