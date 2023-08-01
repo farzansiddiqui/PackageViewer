@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         packageViewModel = ViewModelProvider(this)[PackageViewModel::class.java]
+        onBackPressedActivity()
+        
 
         val listItem: ArrayList<AppListModel> = arrayListOf()
         val userInstallApp = ArrayList<PackageInfo>()
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val applicationList: List<PackageInfo> =
                 packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(0))
@@ -78,17 +79,20 @@ class MainActivity : AppCompatActivity() {
         packageViewModel.addList(listItem)
         binding.recyclerView.adapter = AppListAdapter(listItem)
 
-
-        onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                if (binding.searchView.isShowing){
-                    binding.searchView.hide()
-                }else{
-                    finish()
-                }
+        binding.searchView.editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                val query = binding.searchView.text.toString()
+                performSearch(query)
+                true
+            }else{
+                false
             }
 
-        })
+        }
+
+    }
+
+    private fun performSearch(query: String) {
 
     }
 
@@ -96,13 +100,17 @@ class MainActivity : AppCompatActivity() {
         return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun onBackPressedActivity(){
+        onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.searchView.isShowing) {
+                    binding.searchView.hide()
+                }else {
+                    finish()
+                }
+            }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+        })
     }
 
 }

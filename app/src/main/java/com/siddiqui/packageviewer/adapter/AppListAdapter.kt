@@ -10,7 +10,7 @@ import com.siddiqui.packageviewer.R
 import com.siddiqui.packageviewer.model.AppListModel
 
 class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
-
+    private var filterData:ArrayList<AppListModel> = appArrayList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAppListViewModel {
         val itemView = LayoutInflater.from(parent.context)
@@ -37,6 +37,9 @@ class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : Recycle
             packageName.text = appListModel.packageName
             imageView.setImageDrawable(appListModel.imageDrawable)
         }
+
+    }
+    fun filterData(query:String?){
 
     }
 
