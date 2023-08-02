@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.search.SearchView
 import com.siddiqui.packageviewer.adapter.AppListAdapter
 import com.siddiqui.packageviewer.databinding.ActivityMainBinding
 import com.siddiqui.packageviewer.model.AppListModel
@@ -54,8 +55,6 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
             }
-
-
         } else {
             val applicationList: List<PackageInfo> = packageManager.getInstalledPackages(0)
             for (packageInfo in applicationList) {
@@ -79,9 +78,13 @@ class MainActivity : AppCompatActivity() {
         packageViewModel.addList(listItem)
         binding.recyclerView.adapter = AppListAdapter(listItem)
 
+
+        // it's for when user write the text afterwards and click the search button on keyboard
+        // then performed the function.
         binding.searchView.editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
                 val query = binding.searchView.text.toString()
+                Log.d("TAG", "onCreate: $query")
                 performSearch(query)
                 true
             }else{
@@ -90,10 +93,11 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
     }
 
     private fun performSearch(query: String) {
-
+        Log.d("TAG", "performSearch:$query")
     }
 
     private fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {

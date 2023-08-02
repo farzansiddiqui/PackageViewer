@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.siddiqui.packageviewer.R
 import com.siddiqui.packageviewer.model.AppListModel
 
-class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
-    private var filterData:ArrayList<AppListModel> = appArrayList
+class AppListAdapter(private var appArrayList:ArrayList<AppListModel>) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAppListViewModel {
         val itemView = LayoutInflater.from(parent.context)
@@ -39,8 +39,8 @@ class AppListAdapter(private val appArrayList:ArrayList<AppListModel>) : Recycle
         }
 
     }
-    fun filterData(query:String?){
-
-    }
-
+        fun updateList(updateList:ArrayList<AppListModel>){
+            appArrayList = updateList
+            notifyDataSetChanged()
+        }
 }
