@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("TAG", "application total number of install: ${userInstallApp.size}")
         packageViewModel.addList(listItem)
         binding.recyclerView.adapter = AppListAdapter(listItem)
+        Log.d("TAG", "onCreate: ")
 
 
         // it's for when user write the text afterwards and click the search button on keyboard
