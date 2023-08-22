@@ -7,11 +7,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.search.SearchView
 import com.siddiqui.packageviewer.adapter.AppListAdapter
 import com.siddiqui.packageviewer.databinding.ActivityMainBinding
 import com.siddiqui.packageviewer.model.AppListModel
@@ -28,10 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(this)
 
         packageViewModel = ViewModelProvider(this)[PackageViewModel::class.java]
         onBackPressedActivity()
-        
+
 
         val listItem: ArrayList<AppListModel> = arrayListOf()
         val userInstallApp = ArrayList<PackageInfo>()
@@ -76,29 +76,23 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("TAG", "application total number of install: ${userInstallApp.size}")
         packageViewModel.addList(listItem)
-        binding.recyclerView.adapter = AppListAdapter(listItem)
-        Log.d("TAG", "onCreate: ")
+        val adapter = AppListAdapter(listItem)
+        binding.recyclerView.adapter = adapter
 
 
         // it's for when user write the text afterwards and click the search button on keyboard
         // then performed the function.
-        binding.searchView.editText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                val query = binding.searchView.text.toString()
-                Log.d("TAG", "onCreate: $query")
-                performSearch(query)
-                true
-            }else{
-                false
+        binding.searchRecyclerView.adapter = AppListAdapter(listItem)
+
+        binding.searchView.editText.doOnTextChanged { text, start, before, count ->
+            Log.d("TAG", "onCreate: $text")
+            val filteredList = listItem.filter { item->
+                item.applicationName.contains(text!!,ignoreCase = true)
+
             }
 
         }
 
-
-    }
-
-    private fun performSearch(query: String) {
-        Log.d("TAG", "performSearch:$query")
     }
 
     private fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {

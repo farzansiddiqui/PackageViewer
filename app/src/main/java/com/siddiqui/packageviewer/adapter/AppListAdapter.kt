@@ -39,8 +39,10 @@ class AppListAdapter(private var appArrayList:ArrayList<AppListModel>) : Recycle
         }
 
     }
-        fun updateList(updateList:ArrayList<AppListModel>){
-            appArrayList = updateList
-            notifyDataSetChanged()
+        fun updateList(updateList: List<AppListModel>){
+            appArrayList = updateList as ArrayList<AppListModel>
+            notifyDataSetChanged() // Refresh the RecyclerView
         }
+
+
 }
