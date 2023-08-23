@@ -3,7 +3,26 @@
     <style name="Base.Theme.PackageViewer" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
+
+        <!-- Optional: set the status bar light and content dark. -->
+        <item name="android:windowLightStatusBar">
+            true
+        </item>
+
+
     </style>
 
-    <style name="Theme.PackageViewer" parent="Base.Theme.PackageViewer" />
+    <style name="Theme.PackageViewer" parent="Base.Theme.PackageViewer" >
+        <!-- values-v29/themes.xml -->
+
+            <!-- Optional: set to transparent if your app is drawing behind the status bar. -->
+
+
+    </style>
+
 </resources>

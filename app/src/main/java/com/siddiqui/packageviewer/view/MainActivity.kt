@@ -3,11 +3,15 @@ package com.siddiqui.packageviewer.view
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -34,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val listItem: ArrayList<AppListModel> = arrayListOf()
+
         val userInstallApp = ArrayList<PackageInfo>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val applicationList: List<PackageInfo> =
@@ -82,17 +93,19 @@ class MainActivity : AppCompatActivity() {
 
         // it's for when user write the text afterwards and click the search button on keyboard
         // then performed the function.
-        binding.searchRecyclerView.adapter = AppListAdapter(listItem)
+        val searchAdapter = AppListAdapter(listItem)
+        binding.searchRecyclerView.adapter = searchAdapter
+
 
         binding.searchView.editText.doOnTextChanged { text, start, before, count ->
+
             Log.d("TAG", "onCreate: $text")
             val filteredList = listItem.filter { item->
                 item.applicationName.contains(text!!,ignoreCase = true)
-
             }
 
+            searchAdapter.updateList(filteredList)
         }
-
     }
 
     private fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {
