@@ -28,12 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_app"
-        app:layout_anchor="@id/search_bar">
+        app:layout_anchor="@id/search_bar"
+       >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingBottom="36dp"
+           />
 
     </com.google.android.material.search.SearchView>
 
