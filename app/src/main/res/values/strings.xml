@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PackageViewer</string>
+    <string name="app_name">App Package Info</string>
     <string name="_dot">---</string>
     <string name="search_app">Search App</string>
 </resources>

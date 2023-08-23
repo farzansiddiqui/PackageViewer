@@ -1,16 +1,15 @@
 package com.siddiqui.packageviewer.view
 
+import android.Manifest
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.ViewCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
@@ -103,8 +102,12 @@ class MainActivity : AppCompatActivity() {
             val filteredList = listItem.filter { item->
                 item.applicationName.contains(text!!,ignoreCase = true)
             }
-
+          
             searchAdapter.updateList(filteredList)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.QUERY_ALL_PACKAGES) != PackageManager.PERMISSION_GRANTED){
+
         }
     }
 
