@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
-
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(this)
 
