@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
-    private fun onBackPressedActivity(){
+    private fun onBackPressedActivity() {
         onBackPressedDispatcher.addCallback(this, object :OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (binding.searchView.isShowing) {
