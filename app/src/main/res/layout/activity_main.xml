@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_app" />
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -28,8 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_app"
-        app:layout_anchor="@id/search_bar"
-       >
+        app:layout_anchor="@id/search_bar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_RecyclerView"
@@ -53,7 +51,6 @@
             android:paddingBottom="36dp"/>
 
     </androidx.core.widget.NestedScrollView>
-
 
 
     <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
