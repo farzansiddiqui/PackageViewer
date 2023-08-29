@@ -19,7 +19,7 @@ import com.siddiqui.packageviewer.model.AppListModel
 import com.siddiqui.packageviewer.viewmodel.PackageViewModel
 
 
-class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var packageViewModel: PackageViewModel
     val listItem: ArrayList<AppListModel> = arrayListOf()
@@ -83,7 +83,16 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
         }
         Log.d("TAG", "application total number of install: ${userInstallApp.size}")
         packageViewModel.addList(listItem)
-        val adapter = AppListAdapter(listItem,this)
+        val adapter = AppListAdapter(listItem,object :AppListAdapter.ItemClickListener{
+            override fun onItemClick(itemPosition: Int) {
+                val appDetailsFragment = AppDetailsFragment()
+                val bundle = Bundle()
+                bundle.putString("applicationName", listItem[itemPosition].applicationName)
+                bundle.putString("packageName",listItem[itemPosition].packageName)
+                appDetailsFragment.arguments = bundle
+                appDetailsFragment.show(supportFragmentManager,"App Details BottomFragment")
+            }
+        })
         binding.recyclerView.adapter = adapter
 
 
@@ -91,8 +100,19 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
         // it's for when user write the text afterwards and click the search button on keyboard
         // then performed the function.
 
-        val searchAdapter = AppListAdapter(listItem,this)
+        val searchAdapter = AppListAdapter(listItem,object :AppListAdapter.ItemClickListener{
+            override fun onItemClick(itemPosition: Int) {
+                val appDetailsFragment = AppDetailsFragment()
+                val bundle = Bundle()
+                bundle.putString("applicationName", listItem[itemPosition].applicationName)
+                bundle.putString("packageName",listItem[itemPosition].packageName)
+                appDetailsFragment.arguments = bundle
+                appDetailsFragment.show(supportFragmentManager,"App Details BottomFragment")
+            }
+        })
         binding.searchRecyclerView.adapter = searchAdapter
+
+
 
         binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
             val filteredList = listItem.filter { item->
@@ -100,7 +120,6 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
             }
 
             searchAdapter.updateList(filteredList)
-
         }
 
     }
@@ -121,13 +140,13 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
         })
     }
 
-    override fun onItemClick(itemPosition: Int) {
+   /* override fun onItemClick(itemPosition: Int) {
         val appDetailsFragment = AppDetailsFragment()
         val bundle = Bundle()
         bundle.putString("applicationName", listItem[itemPosition].applicationName)
         bundle.putString("packageName",listItem[itemPosition].packageName)
         appDetailsFragment.arguments = bundle
         appDetailsFragment.show(supportFragmentManager,"App Details BottomFragment")
-    }
+    }*/
 
 }

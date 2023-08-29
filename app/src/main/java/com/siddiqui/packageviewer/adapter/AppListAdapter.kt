@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.siddiqui.packageviewer.R
 import com.siddiqui.packageviewer.model.AppListModel
 
-class AppListAdapter(private var appArrayList:ArrayList<AppListModel>, private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
+class AppListAdapter(private var appArrayList:ArrayList<AppListModel>, private var itemClickListener: ItemClickListener) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAppListViewModel {
@@ -17,6 +17,7 @@ class AppListAdapter(private var appArrayList:ArrayList<AppListModel>, private v
             .inflate(R.layout.app_list_with_package, parent, false)
         return MyAppListViewModel(itemView)
     }
+
 
     override fun getItemCount(): Int {
         return appArrayList.size
@@ -48,7 +49,7 @@ class AppListAdapter(private var appArrayList:ArrayList<AppListModel>, private v
     }
         fun updateList(updateList: List<AppListModel>){
             appArrayList = updateList as ArrayList<AppListModel>
-            notifyDataSetChanged() // Refresh the RecyclerView
+            notifyDataSetChanged()// Refresh the RecyclerView
         }
 
     interface ItemClickListener{

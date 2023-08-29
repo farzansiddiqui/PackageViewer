@@ -125,6 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="12dp"
+
                 android:contentDescription="@string/full_details"
                 android:src="@drawable/baseline_details_24"/>
 
