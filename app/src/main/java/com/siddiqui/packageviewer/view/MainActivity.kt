@@ -1,6 +1,5 @@
 package com.siddiqui.packageviewer.view
 
-import android.Manifest
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -9,21 +8,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.siddiqui.packageviewer.adapter.AppListAdapter
+import com.siddiqui.packageviewer.btmFragment.AppDetailsFragment
 import com.siddiqui.packageviewer.databinding.ActivityMainBinding
 import com.siddiqui.packageviewer.model.AppListModel
 import com.siddiqui.packageviewer.viewmodel.PackageViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var packageViewModel: PackageViewModel
-
+    val listItem: ArrayList<AppListModel> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         onBackPressedActivity()
 
 
-        val listItem: ArrayList<AppListModel> = arrayListOf()
+
 
         val userInstallApp = ArrayList<PackageInfo>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -84,19 +83,19 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d("TAG", "application total number of install: ${userInstallApp.size}")
         packageViewModel.addList(listItem)
-        val adapter = AppListAdapter(listItem)
+        val adapter = AppListAdapter(listItem,this)
         binding.recyclerView.adapter = adapter
+
+
 
 
         // it's for when user write the text afterwards and click the search button on keyboard
         // then performed the function.
-        val searchAdapter = AppListAdapter(listItem)
+        val searchAdapter = AppListAdapter(listItem,this)
         binding.searchRecyclerView.adapter = searchAdapter
 
 
         binding.searchView.editText.doOnTextChanged { text, start, before, count ->
-
-            Log.d("TAG", "onCreate: $text")
             val filteredList = listItem.filter { item->
                 item.applicationName.contains(text!!,ignoreCase = true)
             }
@@ -104,9 +103,6 @@ class MainActivity : AppCompatActivity() {
             searchAdapter.updateList(filteredList)
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.QUERY_ALL_PACKAGES) != PackageManager.PERMISSION_GRANTED){
-
-        }
     }
 
     private fun isSystemApp(applicationInfo: ApplicationInfo): Boolean {
@@ -124,6 +120,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onItemClick(itemPosition: Int) {
+        val appDetailsFragment = AppDetailsFragment()
+        val bundle = Bundle()
+        bundle.putString("applicationName", listItem[itemPosition].applicationName)
+        appDetailsFragment.arguments = bundle
+        appDetailsFragment.show(supportFragmentManager,"App Details BottomFragment")
     }
 
 }

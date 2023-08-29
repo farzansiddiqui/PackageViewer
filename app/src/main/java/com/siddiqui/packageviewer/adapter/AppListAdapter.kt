@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.siddiqui.packageviewer.R
 import com.siddiqui.packageviewer.model.AppListModel
 
-class AppListAdapter(private var appArrayList:ArrayList<AppListModel>) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
+class AppListAdapter(private var appArrayList:ArrayList<AppListModel>, private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<AppListAdapter.MyAppListViewModel>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAppListViewModel {
@@ -37,12 +37,23 @@ class AppListAdapter(private var appArrayList:ArrayList<AppListModel>) : Recycle
             packageName.text = appListModel.packageName
             imageView.setImageDrawable(appListModel.imageDrawable)
         }
+        init {
+            itemView.setOnClickListener {
+                if (adapterPosition >= 0){
+                    itemClickListener.onItemClick(adapterPosition)
+                }
+            }
+        }
 
     }
         fun updateList(updateList: List<AppListModel>){
             appArrayList = updateList as ArrayList<AppListModel>
             notifyDataSetChanged() // Refresh the RecyclerView
         }
+
+    interface ItemClickListener{
+        fun onItemClick(itemPosition:Int)
+    }
 
 
 }

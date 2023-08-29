@@ -2,4 +2,10 @@
     <string name="app_name">App Package Info</string>
     <string name="_dot">---</string>
     <string name="search_app">Search App</string>
+    <string name="launchscreen">Launch</string>
+    <string name="playstore">Google Play</string>
+    <string name="share">share</string>
+    <string name="full_details">Full-details</string>
+    <string name="setting">Setting</string>
+    <string name="delete">Delete</string>
 </resources>
