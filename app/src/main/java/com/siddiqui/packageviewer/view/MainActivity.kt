@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
         val appDetailsFragment = AppDetailsFragment()
         val bundle = Bundle()
         bundle.putString("applicationName", listItem[itemPosition].applicationName)
+        bundle.putString("packageName",listItem[itemPosition].packageName)
         appDetailsFragment.arguments = bundle
         appDetailsFragment.show(supportFragmentManager,"App Details BottomFragment")
     }

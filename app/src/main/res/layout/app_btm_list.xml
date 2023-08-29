@@ -33,6 +33,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/launchApplication"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,7 +58,9 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/playStoreRelativeLayout"
             android:layout_width="0dp"
+            android:background="?attr/actionBarItemBackground"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center">
@@ -83,6 +86,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/shareRelativeLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
