@@ -53,9 +53,7 @@ class AppDetailsFragment:BottomSheetDialogFragment() {
                 context?.settingApplication(packageName!!)
             }
             deleteApplication.setOnClickListener {
-                val dialog = context?.deleteDialog(requireContext(), packageName!!)
-               dialog?.show()
-
+                 context?.uninstallApplication(packageName!!)
             }
 
         }
@@ -97,17 +95,13 @@ class AppDetailsFragment:BottomSheetDialogFragment() {
         startActivity(intent)
     }
 
-   private fun Context.deleteDialog(context: Context, pkgName: String):MaterialAlertDialogBuilder{
-       return MaterialAlertDialogBuilder(context).
-               setTitle("Delete Application!!")
-           .setMessage("Do You want to Delete this application?")
-           .setPositiveButton("Ok") { dialog, _ ->
-               val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+   private fun Context.uninstallApplication(pkgName: String){
+               val intent = Intent(Intent.ACTION_DELETE)
                intent.data = Uri.parse("package:$pkgName")
                startActivity(intent)
-               dialog.dismiss()
+               dialog?.dismiss()
            }
 
-   }
+
 
 }
