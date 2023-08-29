@@ -88,19 +88,19 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
 
 
 
-
         // it's for when user write the text afterwards and click the search button on keyboard
         // then performed the function.
+
         val searchAdapter = AppListAdapter(listItem,this)
         binding.searchRecyclerView.adapter = searchAdapter
 
-
-        binding.searchView.editText.doOnTextChanged { text, start, before, count ->
+        binding.searchView.editText.doOnTextChanged { text, _, _, _ ->
             val filteredList = listItem.filter { item->
                 item.applicationName.contains(text!!,ignoreCase = true)
             }
-          
+
             searchAdapter.updateList(filteredList)
+
         }
 
     }
@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity(), AppListAdapter.ItemClickListener {
                     finish()
                 }
             }
-
         })
     }
 

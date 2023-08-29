@@ -113,6 +113,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/full_detailsRelativelayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -177,7 +178,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/settingImageView"
-        app:layout_constraintTop_toTopOf="@+id/settingImageView" />
+        app:layout_constraintTop_toTopOf="@+id/settingImageView"/>
 
     <TextView
         android:layout_width="wrap_content"

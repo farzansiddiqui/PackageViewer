@@ -5,12 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.siddiqui.packageviewer.R
 
 class AppDetailsFragment:BottomSheetDialogFragment() {
@@ -28,6 +31,9 @@ class AppDetailsFragment:BottomSheetDialogFragment() {
         val playStore:RelativeLayout = view.findViewById(R.id.playStoreRelativeLayout)
         val launchApplication:RelativeLayout = view.findViewById(R.id.launchApplication)
         val shareApplication:RelativeLayout = view.findViewById(R.id.shareRelativeLayout)
+        val fullDetails:ImageView = view.findViewById(R.id.settingImageView)
+        val deleteApplication:ImageView = view.findViewById(R.id.deleteImageView)
+
         if (arguments != null){
             applicationName.text = arguments?.getString("applicationName")
             val packageName = arguments?.getString("packageName")
@@ -42,6 +48,16 @@ class AppDetailsFragment:BottomSheetDialogFragment() {
                 shareApplication.setOnClickListener {
                     context?.shareApplication(packageName!!)
                 }
+
+            fullDetails.setOnClickListener {
+                context?.settingApplication(packageName!!)
+            }
+            deleteApplication.setOnClickListener {
+                val dialog = context?.deleteDialog(requireContext(), packageName!!)
+               dialog?.show()
+
+            }
+
         }
 
     }
@@ -75,4 +91,23 @@ class AppDetailsFragment:BottomSheetDialogFragment() {
             }
 
     }
+    private fun Context.settingApplication(pkgName: String){
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:$pkgName")
+        startActivity(intent)
+    }
+
+   private fun Context.deleteDialog(context: Context, pkgName: String):MaterialAlertDialogBuilder{
+       return MaterialAlertDialogBuilder(context).
+               setTitle("Delete Application!!")
+           .setMessage("Do You want to Delete this application?")
+           .setPositiveButton("Ok") { dialog, _ ->
+               val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+               intent.data = Uri.parse("package:$pkgName")
+               startActivity(intent)
+               dialog.dismiss()
+           }
+
+   }
+
 }
